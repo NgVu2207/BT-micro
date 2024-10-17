@@ -1,0 +1,3 @@
+[submodule "api-gateway-8080"]
+	path = api-gateway-8080
+	url = https://github.com/NgVu2207/BT.git

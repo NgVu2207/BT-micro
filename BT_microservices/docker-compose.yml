@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  api-gateway-8080:
+    container_name: api-gateway-8080
+    build: ./api-gateway-8080
+    ports:
+      - 8080:8080
+    networks:
+      - node-network
+
+  service-notify:
+    container_name: service-notify
+    build: ./service-notify
+    networks:
+      - node-network
+  
+  service-order:
+    container_name: service-order
+    environment:
+      - DATABASE_URL=postgresql://postgres:1234@some-postgres:5432/db_baemin
+    build: ./service-order
+    networks:
+      - node-network
+  
+  service-product:
+    container_name: service-product
+    build: ./service-product
+    environment:
+      - DATABASE_URL=postgresql://postgres:1234@some-postgres:5432/db_baemin
+      - REDIS_HOST=some-redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=1234
+      - REDIS_TTL=5000
+      - ELASTIC_NODE=https://elasticsearch:9200
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASS=123456
+    networks:
+      - node-network
+
+  service-shipping:
+    container_name: service-shipping
+    build: ./service-shipping
+    environment:
+      - DATABASE_URL=postgresql://postgres:1234@some-postgres:5432/db_baemin
+    networks:
+      - node-network
+
+  service-user:
+    container_name: service-user
+    build: ./service-user
+    environment:
+      - DATABASE_URL=postgresql://postgres:1234@some-postgres:5432/db_baemin
+    networks:
+      - node-network
+
+networks:
+  node-network:
+    external: true
+      
+
